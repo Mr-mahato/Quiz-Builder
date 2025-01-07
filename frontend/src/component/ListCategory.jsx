@@ -3,7 +3,7 @@ import React from "react";
 const ListCategory = ({ Category }) => {
   return (
     <div>
-      <select defaultValue="" className="p-1 bg-neutral-100 self-center  outline-none w-full">
+      <select defaultValue="" className="p-2 rounded-md bg-neutral-50 border self-center  outline-none w-full">
         <option value="" disabled>
           Select a category
         </option>

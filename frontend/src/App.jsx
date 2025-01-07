@@ -5,9 +5,9 @@ import QuestionEditor from "./component/QuestionEditor";
 function App() {
   return (
     <div className="">
+      <h1>Quiz Name</h1>
       <Category/>
       <ClozeQuestion/>
-
       <QuestionEditor/>
     </div>
   );
