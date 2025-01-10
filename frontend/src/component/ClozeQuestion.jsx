@@ -25,7 +25,6 @@ export default function ClozeQuestion() {
   let modifiedText = "";
   useEffect(() => {
     modifiedText = processText(text);
-    console.log(modifiedText);
     setPreviewText(modifiedText);
   }, [text]);
   console.log(modifiedText);
@@ -35,7 +34,7 @@ export default function ClozeQuestion() {
       <div className="flex flex-1 flex-col gap-2 ">
         {Array.from({ length: clozeNmbr }).map((_, indx) => {
           return (
-            <div className="p-2 border rounded-md">
+            <div key={indx} className="p-2 border rounded-md">
               <div className="flex justify-between items-start mb-6">
                 <div className="text-lg font-medium text-muted-foreground">
                   Question {indx+1}
