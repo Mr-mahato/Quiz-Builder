@@ -1,20 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const fillInTheBlanksSchema = new mongoose.Schema({
-  originalText: {
+const Schema = mongoose.Schema;
+
+const FillInTheBlankSchema = new Schema({
+  text: {
     type: String,
-    required: true,
+    required: true, // The full text with gaps, e.g., "<p>writing ____ and ____.</p>"
   },
-  blankText: {
-    type: String,
-    required: true,
-  },
-  answers: {
-    type: [String],
-    required: true,
-  },
+  blanks: [
+    {
+      position: {
+        type: Number,
+        required: true, // Index of the blank (e.g., 0 for the first blank)
+      },
+      correctAnswer: {
+        type: String,
+        required: true, // The correct answer for the blank
+      },
+      options: {
+        type: [String], // Array of options for this blank
+      },
+    },
+  ],
 });
 
-const FillInTheBlanks = mongoose.model('FillInTheBlanks', fillInTheBlanksSchema);
+const FillTheBlankModel =  mongoose.model("FillInTheBlank", FillInTheBlankSchema);
 
-module.exports = FillInTheBlanks;
+module.exports = FillTheBlankModel;
