@@ -6,6 +6,10 @@ const categoriesSchema = new Schema({
     type: Number,
     required: true, // Ensures the index is mandatory
   },
+  quizId:{
+    type:String,
+    required:true
+  },
   question: {
     type: String,
     required: true, // Ensures the question is mandatory

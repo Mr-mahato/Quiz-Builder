@@ -7,6 +7,10 @@ const FillInTheBlankSchema = new Schema({
     type: String,
     required: true, // The full text with gaps, e.g., "<p>writing ____ and ____.</p>"
   },
+  quizId:{
+    type:String,
+    required:true
+  },
   blanks: [
     {
       position: {

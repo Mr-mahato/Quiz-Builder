@@ -17,10 +17,9 @@ const intro = async (req, res) => {
 
 const postFillBlanks = async (req, res) => {
   try {
-    const { text, blanks } = req.body;
-    const blanksObjData = new FillTheBlankModel({ text, blanks });
+    const { text, blanks,quizId } = req.body;
+    const blanksObjData = new FillTheBlankModel({ text, blanks,quizId });
     await blanksObjData.save();
-    console.log("text:", text, "blanks:", blanks);
 
     res.status(201).json({
       status: 1,
@@ -34,10 +33,9 @@ const postFillBlanks = async (req, res) => {
 
 const postCategory = async (req, res) => {
   try {
-    const { index, question, categories } = req.body;
-    console.log(index, question, categories);
+    const { index, question, categories,quizId } = req.body;
 
-    const categoryObjData = new CategoryModel({ index, question, categories });
+    const categoryObjData = new CategoryModel({ index, question, categories ,quizId});
 
     await categoryObjData.save();
 
@@ -54,10 +52,10 @@ const postCategory = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const { quizId } = req.params;
-    const data = await CategoryModel.findById({ _id: quizId });
+    const data = await CategoryModel.findOne({ quizId: quizId });
 
     const category = data.categories.map((val) => {
-      return {id:val.category,name:val.category , items:[]};
+      return { id: val.category, name: val.category, items: [] };
     });
     const categoryWithData = data.categories.map((val) => {
       return { [val.category]: val.data };
@@ -65,11 +63,12 @@ const getCategory = async (req, res) => {
     const onlyData = data.categories.reduce((acc, val) => {
       return [...acc, ...val.data];
     }, []);
-
+    const question = data.question;
 
     res.status(200).json({
       status: 1,
       category,
+      question,
       categoryWithData,
       onlyData,
       message: "Category fetched successfully",
@@ -82,9 +81,31 @@ const getCategory = async (req, res) => {
   }
 };
 
+const getFillTheGaps = async (req, res) => {
+  try {
+    const { quizId } = req.params;
+
+    const data = await FillTheBlankModel.findOne({ quizId: quizId });
+    const question = data.text;
+    const blanks = data.blanks;
+    res.status(200).json({
+      status: 1,
+      question,
+      options:blanks[0].options,
+      blanks,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 0,
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   intro,
   postFillBlanks,
   postCategory,
   getCategory,
+  getFillTheGaps,
 };
